@@ -37,6 +37,60 @@ console.log(x[0].substr(1));
 
 // 枚举 Enum
 // enum 类型是对 JavaScript 标准数据类型的一个补充。像 C# 等其他语言一样，使用枚举类型可以为一组数值赋予有好的名字
+// 默认情况下，从 0 开始为元素编号。你也可以手动的指定成员的数量。例如，我们将上面的例子改成从 1 开始编号
 
 enum Color { Red, Green, Blue }
-let c: Color = Color.Green
+let c: Color = Color.Green // 1
+let colorName: string = Color[2] // Blue
+
+// 任意值
+// 有时候，我们会想要为那些在编程阶段还不清楚类型的变量指定一个类型。这些值可能来自于动态的内容，比如来自用户的输入或第三方代码库。这种情况下，我们不希望类型检查器对这些值进行检查而是直接让他们通过编译阶段的检查，那么我们可以使用 any 类型来标记这些变量
+
+let notSure: any = 4
+notSure = 'maybe a string instead'
+notSure = false
+
+let listAny: any[] = [1, true, 'free']
+listAny[1] = true
+
+// 空值
+// 从某种类型上来说，void 类型与 any 类型相反，它表示没有任何类型。当一个函数没有返回值时，你通常会见到其返回值类型是 void
+
+function warnUser(): void {
+    console.log('this is my warning message');
+}
+
+// 声明一个 void 类型的变量没有什么大用，因为你只能为他赋予 null （只在 --strictNullCkecks 未指定时）和 undefined
+
+let  unusable: void = undefined
+
+// Null 和 undefined
+// TypeScript 里，undefined 和 null 两者各自有自己类型分别叫做 undefined 和 null。和 void 相似，它们的本身的类型用处不是很大
+
+let u: undefined = undefined
+let n: null = null
+
+// 默认情况下 null 和 undefined 是所有类型的子类型。就是说你可以把 null 和 undefined 赋值给 number 类型的变量
+
+// 然而，当你指定了 --strictNullChecks 标记，null 和 undefined 只能赋值给 any 和他们各自的类型（有一个例外是 undefined 还可以赋值给 void 类型）。这能避免很多常见的问题。也许在某处你想传入一个 string 或 null 或 undefined，你可以使用联合类型 string | null | undefined.
+
+// Never
+// never 类型表示的是那些永远不存在的值的类型。例如，never 类型是那些总是会抛出异常或者根本就不会有返回值的函数表达式或箭头函数表达式的返回值类型；变量也可能是 never 类型，当他们被永不为真的类型保护所约束时。
+// never 类型是任何类型的子类型，也可以赋值给任何类型；然而，没有类型是 never 的子类型或可以赋值给 never 类型（除 never 本身之外）。即使 any 也不可以赋值给 never。
+
+// 返回 never 的函数必须存在无法抵达的终点
+function error(message: string): never {
+    throw new Error(message)
+}
+
+// 推断的返回值类型为 never
+function fail() {
+    return error('Something failed')
+}
+
+// 返回 never 的函数必须存在无法抵达的终点
+function infniteLoop(): never {
+    while (true) {
+
+    }
+}
