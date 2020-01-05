@@ -94,3 +94,23 @@ function infniteLoop(): never {
 
     }
 }
+
+// Object
+// object 表示非原始类型，也就是除 number、string、boolean、bigint、symbol、null 或 undefined 之外的类型。
+// 使用 object 类型，就可以更好的表示像 object.create 这样的 API
+// declare function create(o: object | null): void;
+//
+// create({ prop: 0})
+// create(null)
+
+// 类型断言
+// 有时候你会遇到这样的情况，你会比 Typescript 更了解某个值的详细信息。通常这回发生在你清楚地知道一个实体具有比它现有类型更确切的类型。
+// 通过类型断言这种方式可以告诉编译器，"请相信我，我知道自己在干什么"。类型断言好比其他语言里的类型转换。但是不进行特殊的数据检查和解构。它没有运行时的影响，只在编译阶段起作用。Typescript 会假设，程序员，已经进行了必须的检查。
+
+let someValue: any = 'this is a string'
+let strLength: number = (<string>someValue).length
+console.log('strLength=', strLength)
+
+let someValue2: any = 5
+let strLength2: number = (someValue2 as string).length
+console.log('strLength2=', strLength2)
